@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-  <title>宵宿 Total Update v2</title>
-  <link rel="stylesheet" href="styles.css?v=touchfix2">
+  <title>宵宿 LINE Fix v1</title>
+  <link rel="stylesheet" href="styles.css?v=linefix1">
 </head>
 <body class="title-body">
   <div class="crt"></div>
@@ -21,12 +21,12 @@
         <li>3スロット SAVE / LOAD</li>
       </ul>
       <div class="title-actions">
-        <a class="main-btn" href="play.html?new=1">はじめから</a>
+        <a class="main-btn" href="home.html?mode=day1&v=linefix1">はじめから</a>
         <button class="sub-btn" id="open-title-load">LOAD</button>
         <button class="sub-btn" id="wipe-save">全スロット削除</button>
       </div>
       <p class="hint">PC: WASD / マウスドラッグ / E / ESC<br>スマホ: 左スティック移動 / 右半分ドラッグ視点 / ACT</p>
-      <p class="version">Total Update v2</p>
+      <p class="version">LINE Fix v1</p>
     </div>
   </main>
 
@@ -41,7 +41,7 @@
 
   <script>
     (function(){
-      const SAVE_PREFIX = 'yoiyado_b1_smartphone_slot_';
+      const SAVE_PREFIX = 'yoiyado_total_update_v2_slot_';
       const overlay = document.getElementById('title-slot-overlay');
       const list = document.getElementById('title-slot-list');
       const openBtn = document.getElementById('open-title-load');
@@ -65,7 +65,7 @@
               const area = data.areaLabel || data.area || '不明';
               const objective = labels[data.step] || data.step || '進行中';
               btn.innerHTML = '<strong>SLOT ' + i + '</strong><span>' + escapeHtml(area) + ' / ' + escapeHtml(objective) + '</span>';
-              btn.addEventListener('click', ()=>{ location.href = 'play.html?slot=' + i; });
+              btn.addEventListener('click', ()=>{ location.href = 'play.html?slot=' + i + '&v=linefix1'; });
             }catch(e){
               btn.innerHTML = '<strong>SLOT ' + i + '</strong><span>読込失敗</span>';
               btn.disabled = true;

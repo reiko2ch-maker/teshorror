@@ -5,7 +5,7 @@ if (typeof THREE === 'undefined') {
   return;
 }
 
-const SAVE_PREFIX = 'yoiyado_total_update_v2_touchfix2_slot_';
+const SAVE_PREFIX = 'yoiyado_linefix1_slot_';
 const TAU = Math.PI * 2;
 
 const canvas = document.getElementById('game-canvas');
@@ -35,6 +35,10 @@ const lookZone = document.getElementById('look-zone');
 const joystickBase = document.getElementById('joystick-base');
 const joystickKnob = document.getElementById('joystick-knob');
 const joystickZone = document.getElementById('joystick-zone');
+const homeOverlay = document.getElementById('home-overlay');
+const homeTitleEl = document.getElementById('home-title');
+const homeTextEl = document.getElementById('home-text');
+const homePrimaryEl = document.getElementById('home-primary');
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x06080d);
@@ -637,74 +641,28 @@ function buildArea(areaId){
 
 function buildHome(){
   const night = state.step === 'sleep_day1';
-  scene.background = new THREE.Color(night ? 0x172032 : 0xd7e1ec);
-  hemi.intensity = night ? 0.82 : 1.18;
-  dirLight.intensity = night ? 0.72 : 1.28;
-  dirLight.position.set(-4, 9, 6);
-  scene.fog.color.set(night ? 0x121722 : 0xd5e0eb);
-  scene.fog.near = night ? 16 : 28;
-  scene.fog.far = night ? 34 : 58;
-
-  createFloor(12, 10, materials.wood, -0.1);
-  createCeiling(12, 10, night ? 0xe2ddd4 : 0xf2ede4);
-  wallSegment(0,-4.95,12,3.2,0.14, night ? materials.wallDark : materials.wallWarm);
-  wallSegment(0,4.95,12,3.2,0.14, night ? materials.wallDark : materials.paper);
-  wallSegment(-5.95,0,0.14,3.2,10, night ? materials.wallDark : materials.wallWarm);
-  wallSegment(5.95,0,0.14,3.2,10, night ? materials.wallDark : materials.wallWarm);
-
-  const desk = new THREE.Mesh(new THREE.BoxGeometry(2.2,0.84,0.92), materials.darkWood);
-  desk.position.set(0,0.42,-2.05);
-  desk.castShadow = desk.receiveShadow = true;
-  areaGroup.add(desk);
-  addBoxCollider(0,-2.05,2.2,0.92);
-
-  const shelf = new THREE.Mesh(new THREE.BoxGeometry(1.0,1.9,0.52), materials.darkWood);
-  shelf.position.set(-5.0,0.95,2.4);
-  shelf.castShadow = shelf.receiveShadow = true;
-  areaGroup.add(shelf);
-  addBoxCollider(-5.0,2.4,1.0,0.52);
-
-  const bag = new THREE.Mesh(new THREE.BoxGeometry(0.54,0.42,0.24), new THREE.MeshStandardMaterial({ color: 0x41474f, roughness: 0.92 }));
-  bag.position.set(0.4,0.95,-1.95);
-  areaGroup.add(bag);
-
-  const futon = new THREE.Mesh(new THREE.BoxGeometry(2.8,0.22,2.4), new THREE.MeshStandardMaterial({ color: 0xf0eee8, roughness: 1 }));
-  futon.position.set(-2.1,0.02,1.75);
-  areaGroup.add(futon);
-  addBoxCollider(-2.1,1.75,2.8,2.4);
-
-  const pillow = new THREE.Mesh(new THREE.BoxGeometry(0.72,0.16,0.34), materials.paper);
-  pillow.position.set(-2.72,0.15,0.95);
-  areaGroup.add(pillow);
-
-  const windowPanel = new THREE.Mesh(new THREE.PlaneGeometry(3.4,1.8), new THREE.MeshBasicMaterial({ color: night ? 0x50627e : 0xf7fbff }));
-  windowPanel.position.set(0,1.75,-4.87);
-  areaGroup.add(windowPanel);
-  const shojiFrame = new THREE.Mesh(new THREE.BoxGeometry(3.6,1.95,0.08), new THREE.MeshStandardMaterial({ color: 0x8c6a4d, roughness: 0.92 }));
-  shojiFrame.position.set(0,1.75,-4.9);
-  areaGroup.add(shojiFrame);
-
-  const doorMat = new THREE.Mesh(new THREE.BoxGeometry(1.2,0.02,0.88), materials.carpet);
-  doorMat.position.set(4.6,-0.08,1.05);
-  areaGroup.add(doorMat);
-
-  addLamp(-2.6,-0.3, night ? 0.46 : 0.96);
-  addLamp(2.6,-0.2, night ? 0.42 : 0.92);
-  addLamp(0.0,2.4, night ? 0.26 : 0.64);
-
-  const noteMesh = new THREE.Mesh(new THREE.BoxGeometry(0.42,0.02,0.28), materials.paper);
-  noteMesh.position.y = 0.88;
-  if (state.step === 'start_note') addItem('scheduleNote','手紙',0,-2.02,noteMesh,itemInteract);
+  scene.fog.color.set(night ? 0x070910 : 0x0b0d12);
+  scene.fog.near = 14; scene.fog.far = 34;
+  createFloor(10, 8, materials.wood, -0.1);
+  createCeiling(10, 8, night ? 0xd7d2cb : 0xece7dd);
+  wallSegment(0,-3.95,10,3.2,0.14,materials.wallWarm); wallSegment(0,3.95,10,3.2,0.14,materials.wallWarm); wallSegment(-4.95,0,0.14,3.2,8,materials.wallDark); wallSegment(4.95,0,0.14,3.2,8,materials.wallDark);
+  const desk = new THREE.Mesh(new THREE.BoxGeometry(1.8,0.82,0.8), materials.darkWood); desk.position.set(-2.0,0.41,-2.2); desk.castShadow = desk.receiveShadow = true; areaGroup.add(desk); addBoxCollider(-2.0,-2.2,1.8,0.8);
+  const shelf = new THREE.Mesh(new THREE.BoxGeometry(0.8,1.8,0.5), materials.darkWood); shelf.position.set(-4.1,0.9,2.8); shelf.castShadow = shelf.receiveShadow = true; areaGroup.add(shelf); addBoxCollider(-4.1,2.8,0.8,0.5);
+  const bag = new THREE.Mesh(new THREE.BoxGeometry(0.54,0.42,0.24), new THREE.MeshStandardMaterial({ color: 0x41474f, roughness: 0.92 })); bag.position.set(-1.8,0.9,-2.05); areaGroup.add(bag);
+  const futon = new THREE.Mesh(new THREE.BoxGeometry(2.6,0.22,2.6), new THREE.MeshStandardMaterial({ color: 0xf0eee8, roughness: 1 })); futon.position.set(0.8,0.02,0.9); areaGroup.add(futon); addBoxCollider(0.8,0.9,2.6,2.6);
+  const pillow = new THREE.Mesh(new THREE.BoxGeometry(0.72,0.16,0.34), materials.paper); pillow.position.set(0.1,0.15,-0.02); areaGroup.add(pillow);
+  const doorMat = new THREE.Mesh(new THREE.BoxGeometry(1.1,0.02,0.8), materials.carpet); doorMat.position.set(4.1,-0.08,1.0); areaGroup.add(doorMat);
+  addLamp(-2.6,-0.4, night ? 0.4 : 0.7); addLamp(2.6,0.2, night ? 0.34 : 0.58);
+  const noteMesh = new THREE.Mesh(new THREE.BoxGeometry(0.42,0.02,0.28), materials.paper); noteMesh.position.y = 0.84;
+  if (state.step === 'start_note') addItem('scheduleNote','手紙',-2.0,-2.2,noteMesh,itemInteract);
   if (state.step === 'sleep_day1') {
-    const futonTrigger = new THREE.Mesh(new THREE.BoxGeometry(2.2,0.04,1.8), new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.01 }));
+    const futonTrigger = new THREE.Mesh(new THREE.BoxGeometry(2.2,0.04,2.0), new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.01 }));
     futonTrigger.position.y = 0.05;
-    addItem('futonBed','布団',-2.1,1.75,futonTrigger,itemInteract);
+    addItem('futonBed','布団',0.8,0.9,futonTrigger,itemInteract);
   }
-  addDoor('homeToTown','外へ出る',4.9,1.05,1.15,'town',{x:-8.3,z:0,yaw:-Math.PI/2},'x',0xe7d9be);
-  const homeLabel = makeLabelPlane('自宅', 1.4, 0.42);
-  homeLabel.position.set(0,2.52,-4.82);
-  areaGroup.add(homeLabel);
-  addPoster(photoRefs.search,-5.72,1.6,-0.6,Math.PI/2,0.9,1.45);
+  addDoor('homeToTown','外へ出る',4.36,1.0,1.1,'town',{x:-8.3,z:0,yaw:-Math.PI/2},'x',0xe7d9be);
+  const homeLabel = makeLabelPlane('自宅', 1.4, 0.42); homeLabel.position.set(0,2.45,-3.84); areaGroup.add(homeLabel);
+  addPoster(photoRefs.search,-4.72,1.55,-0.6,Math.PI/2,0.95,1.45);
 }
 
 function buildTown(){
@@ -1142,11 +1100,41 @@ dialogueOverlay.addEventListener('pointerdown', advanceDialogue);
 dialogueOverlay.addEventListener('touchstart', function(e){ e.preventDefault(); advanceDialogue(); }, { passive:false });
 
 function currentStep(){ return stepDefs[state.step]; }
+
+function homeOverlayData(){
+  if (state.area !== 'home') return null;
+  if (state.step === 'start_note') return { title:'今日から旅館勤務', text:'机の上の手紙を読んで、今日の予定を確認する。', action:'read-note', label:'手紙を読む' };
+  if (state.step === 'leave_home' || state.step === 'leave_home_day2') return { title:'出勤の時間', text:'玄関を開けて田舎町へ出る。旅館へ向かおう。', action:'leave-home', label:'玄関を開ける' };
+  if (state.step === 'sleep_day1') return { title:'本日の勤務終了', text:'布団に入り、少しだけ眠る。翌朝になればまた旅館へ向かう。', action:'sleep', label:'布団で寝る' };
+  return null;
+}
+function updateHomeOverlay(){
+  const data = homeOverlayData();
+  if (!homeOverlay) return;
+  if (!data) { homeOverlay.classList.add('hidden'); return; }
+  homeOverlay.classList.remove('hidden');
+  homeTitleEl.textContent = data.title;
+  homeTextEl.textContent = data.text;
+  homePrimaryEl.textContent = data.label;
+  homePrimaryEl.dataset.homeAction = data.action;
+}
+function handleHomeOverlayAction(){
+  const data = homeOverlayData();
+  if (!data) return false;
+  if (data.action === 'read-note') {
+    showDialogue(storyNodes.home_note, () => setStep('leave_home'));
+    return true;
+  }
+  if (data.action === 'leave-home') { location.href = 'play.html?spawn=town_day1&v=linefix1'; return true; }
+  if (data.action === 'sleep') { location.href = 'home.html?mode=sleep1&v=linefix1'; return true; }
+  return false;
+}
 function setStep(id){
   state.step = id;
   const def = currentStep();
   dayLabelEl.textContent = 'DAY ' + def.day;
   phaseLabelEl.textContent = def.phase;
+  updateHomeOverlay();
   saveToSlot(1, true);
 }
 
@@ -1184,13 +1172,9 @@ function openReturnHome(){
 function goHomeNow(){
   returnHomeEl.classList.add('hidden');
   state.menuOpen = false;
-  state.area = 'home';
-  buildArea(state.area);
-  player.x = 2.4; player.z = 1.4; player.yaw = Math.PI / 2; player.pitch = 0;
+  stopChase();
   resetInput();
-  state.inputLockUntil = performance.now() + 500;
-  state.doorCooldownUntil = performance.now() + 900;
-  setStep('sleep_day1');
+  location.href = 'home.html?mode=sleep1&v=linefix1';
 }
 function spawnGuide(x,z){
   if (state.guide) dynamicGroup.remove(state.guide.group);
@@ -1236,6 +1220,7 @@ function retryFromCheckpoint(){
 }
 
 function interact(){
+  if (handleHomeOverlayAction()) return;
   if (state.menuOpen) return;
   if (!dialogueOverlay.classList.contains('hidden')) return;
   const target = getNearestInteractable();
@@ -1380,7 +1365,7 @@ function setCamera(){
 }
 
 function movePlayer(dt){
-  if (state.menuOpen || !dialogueOverlay.classList.contains('hidden')) return;
+  if (state.menuOpen || !dialogueOverlay.classList.contains('hidden') || !homeOverlay.classList.contains('hidden')) return;
   const moveX = input.joyX + ((input.keys.KeyD?1:0) - (input.keys.KeyA?1:0));
   const moveY = input.joyY + ((input.keys.KeyW?1:0) - (input.keys.KeyS?1:0));
   const len = Math.hypot(moveX, moveY);
@@ -1510,6 +1495,7 @@ function loadFromSlot(slot, silent){
     menuOverlay.classList.add('hidden');
     if (slotOverlay) slotOverlay.classList.add('hidden');
     state.area = data.area || 'lobby';
+    if (state.area === 'home') { location.href = 'home.html?mode=' + ((data.step === 'sleep_day1') ? 'sleep1' : 'day1') + '&v=linefix1'; return true; }
     state.step = data.step || 'talk_okami';
     state.hudHidden = !!data.hudHidden;
     state.questFlags = data.questFlags || {};
@@ -1537,6 +1523,7 @@ function loadFromSlot(slot, silent){
     if (state.ended) endingEl.classList.remove('hidden');
     setStep(state.step);
     if (!silent) window.alert('SLOT ' + slot + ' を読み込みました');
+    updateHomeOverlay();
     return true;
   } catch (e) {
     console.error(e);
@@ -1590,6 +1577,7 @@ function setupControls(){
   document.addEventListener('keyup', function(e){ input.keys[e.code] = false; });
   actBtn.addEventListener('pointerdown', function(e){ e.preventDefault(); interact(); });
   menuBtn.addEventListener('click', toggleMenu);
+  if (homePrimaryEl) homePrimaryEl.addEventListener('click', handleHomeOverlayAction);
   menuOverlay.addEventListener('click', function(e){
     const btn = e.target.closest('button'); if (!btn) return;
     const act = btn.dataset.action;
@@ -1622,15 +1610,7 @@ function setupControls(){
   joystickZone.addEventListener('pointerdown', startJoy);
   window.addEventListener('pointermove', moveJoy);
   window.addEventListener('pointerup', endJoy);
-  joystickZone.addEventListener('touchstart', startJoyTouch, {passive:false});
-  window.addEventListener('touchmove', moveJoyTouch, {passive:false});
-  window.addEventListener('touchend', endJoyTouch, {passive:false});
-  window.addEventListener('touchcancel', endJoyTouch, {passive:false});
   lookZone.addEventListener('pointerdown', startLook);
-  lookZone.addEventListener('touchstart', startLookTouch, {passive:false});
-  window.addEventListener('touchmove', moveLookTouch, {passive:false});
-  window.addEventListener('touchend', endLookTouch, {passive:false});
-  window.addEventListener('touchcancel', endLookTouch, {passive:false});
   canvas.addEventListener('pointerdown', function(e){
     if (state.menuOpen) return;
     if (e.clientX > window.innerWidth * 0.38) {
@@ -1653,9 +1633,6 @@ function preventer(e){ e.preventDefault(); }
 function startJoy(e){ if(state.menuOpen) return; input.joyId = e.pointerId; updateJoy(e); joystickZone.setPointerCapture?.(e.pointerId); }
 function moveJoy(e){ if(e.pointerId !== input.joyId) return; updateJoy(e); }
 function endJoy(e){ if(e.pointerId !== input.joyId) return; input.joyId = null; input.joyX = 0; input.joyY = 0; centerJoystick(); }
-function startJoyTouch(e){ if(state.menuOpen) return; const t = e.changedTouches[0]; if(!t) return; e.preventDefault(); input.joyId = 'touch-joy'; updateJoy(t); }
-function moveJoyTouch(e){ if(input.joyId !== 'touch-joy') return; const t = e.changedTouches[0]; if(!t) return; e.preventDefault(); updateJoy(t); }
-function endJoyTouch(e){ if(input.joyId !== 'touch-joy') return; input.joyId = null; input.joyX = 0; input.joyY = 0; centerJoystick(); }
 function updateJoy(e){
   const rect = joystickBase.getBoundingClientRect();
   const cx = rect.left + rect.width/2, cy = rect.top + rect.height/2;
@@ -1671,9 +1648,6 @@ function centerJoystick(){ joystickKnob.style.transform = 'translate(0px, 0px)';
 function startLook(e){ if(state.menuOpen) return; input.lookId = e.pointerId; input.lookDragging = true; input.pointerX = e.clientX; input.pointerY = e.clientY; lookZone.setPointerCapture?.(e.pointerId); }
 function moveLook(e){ if(!input.lookDragging || e.pointerId !== input.lookId || state.menuOpen) return; const dx = e.clientX - input.pointerX; const dy = e.clientY - input.pointerY; input.pointerX = e.clientX; input.pointerY = e.clientY; rotateLook(dx,dy); }
 function endLook(e){ if(e.pointerId !== input.lookId) return; input.lookDragging = false; input.lookId = null; }
-function startLookTouch(e){ if(state.menuOpen) return; const t=e.changedTouches[0]; if(!t) return; e.preventDefault(); input.lookId='touch-look'; input.lookDragging=true; input.pointerX=t.clientX; input.pointerY=t.clientY; }
-function moveLookTouch(e){ if(!input.lookDragging || input.lookId!=='touch-look' || state.menuOpen) return; const t=e.changedTouches[0]; if(!t) return; e.preventDefault(); const dx=t.clientX-input.pointerX; const dy=t.clientY-input.pointerY; input.pointerX=t.clientX; input.pointerY=t.clientY; rotateLook(dx,dy); }
-function endLookTouch(e){ if(input.lookId!=='touch-look') return; input.lookDragging=false; input.lookId=null; }
 function rotateLook(dx,dy){ player.yaw -= dx * 0.0088; player.pitch -= dy * 0.0064; player.pitch = Math.max(-1.05, Math.min(1.05, player.pitch)); }
 function toggleMenu(force){
   const open = typeof force === 'boolean' ? force : !state.menuOpen;
@@ -1685,10 +1659,8 @@ function onResize(){ renderer.setSize(window.innerWidth, window.innerHeight, fal
 
 
 function beginNewGame(){
-  state.area = 'home';
-  state.day = 1;
-  state.phaseLabel = '昼勤務';
-  state.step = 'start_note';
+  state.area = 'town';
+  state.step = 'walk_to_ryokan';
   state.hudHidden = false;
   state.menuOpen = false;
   state.dialogueQueue = [];
@@ -1707,18 +1679,51 @@ function beginNewGame(){
   dialogueOverlay.classList.add('hidden');
   menuOverlay.classList.add('hidden');
   stopChase();
-  buildArea('home');
-  player.x = 0.0; player.z = 2.1; player.yaw = 0.0; player.pitch = 0;
+  buildArea('town');
+  player.x = -8.3; player.z = 0; player.yaw = -Math.PI / 2; player.pitch = 0;
   resetInput();
-  setStep('start_note');
+  setStep('walk_to_ryokan');
+  updateHomeOverlay();
+}
+
+function beginTownDay2(){
+  state.area = 'town';
+  state.step = 'commute_day2';
+  state.hudHidden = false;
+  state.menuOpen = false;
+  state.dialogueQueue = [];
+  state.checkpoint = null;
+  state.chase = null;
+  state.guide = null;
+  state.slotMode = null;
+  state.lastDoorId = null;
+  state.doorCooldownUntil = 0;
+  state.inputLockUntil = 0;
+  state.questFlags = {};
+  state.ended = false;
+  gameOverEl.classList.add('hidden');
+  endingEl.classList.add('hidden');
+  returnHomeEl.classList.add('hidden');
+  dialogueOverlay.classList.add('hidden');
+  menuOverlay.classList.add('hidden');
+  stopChase();
+  buildArea('town');
+  player.x = -8.3; player.z = 0; player.yaw = -Math.PI / 2; player.pitch = 0;
+  resetInput();
+  setStep('commute_day2');
+  updateHomeOverlay();
 }
 
 function init(){
   setupControls();
   const params = new URLSearchParams(location.search);
   const slotParam = Number(params.get('slot') || '0');
-  if (params.get('new') === '1') {
+  const spawn = params.get('spawn') || '';
+  if (spawn === 'town_day1') {
     beginNewGame();
+    history.replaceState(null, '', 'play.html');
+  } else if (spawn === 'town_day2') {
+    beginTownDay2();
     history.replaceState(null, '', 'play.html');
   } else if (slotParam >= 1 && slotParam <= 3) {
     const ok = loadFromSlot(slotParam, true);
